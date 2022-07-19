@@ -5,6 +5,9 @@
 
 package com.mycompany.elecciones.g8;
 
+import Clases.ClsJdbc;
+
+
 /**
  *
  * @author davidperezarias
@@ -13,5 +16,10 @@ public class EleccionesG8 {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        
+        ClsJdbc jdbc = new ClsJdbc();
+        jdbc.CrearConexion();
+       
+        
     }
 }
