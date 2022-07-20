@@ -53,6 +53,8 @@ public class MdlCandidato {
         }
 
     }
+    
+    
 
     public ClsMensaje agregarCandidato(ClsCandidato candidato) {
 
@@ -76,6 +78,47 @@ public class MdlCandidato {
             if (resultado >= 1) {
 
                 mensaje = new ClsMensaje(ClsMensaje.OK, "Has creado un cadidato exitosamente");
+                return mensaje;
+            }
+
+            mensaje = new ClsMensaje(ClsMensaje.ERROR, "Uy ocurrió un error");
+            return mensaje;
+
+        } catch (Exception excepcion) {
+
+            mensaje = new ClsMensaje(ClsMensaje.ERROR, "Uy ocurrió un error: " + excepcion.getMessage());
+            return mensaje;
+        }
+
+    }
+    
+    
+    public ClsMensaje actualizarCandidato(ClsCandidato candidato) {
+
+        ClsMensaje mensaje;
+
+        try {
+            String sql = "UPDATE tbl_candidatos SET nombre = ?, correo = ?, telefono = ?, " +
+                    " direccion = ?, partido_politico = ?, mensaje_campania = ? ," +
+                    " descripcion = ?, ciudad_origen = ? WHERE id_candidato = ?"
+                    ;
+            PreparedStatement sentencia = this.jdbc.conexion.prepareStatement(sql);
+           
+            sentencia.setString(1, candidato.getNombre());
+            sentencia.setString(2, candidato.getCorreo());
+            sentencia.setString(3, candidato.getTelefono());
+            sentencia.setString(4, candidato.getDireccion());
+            sentencia.setString(5, candidato.getPartido());
+            sentencia.setString(6, candidato.getMensajeCampania());
+            sentencia.setString(7, candidato.getDescripcion());
+            sentencia.setString(8, candidato.getCiudadOrigen());
+             sentencia.setString(9, candidato.getNumeroCedula());
+
+            int resultado = sentencia.executeUpdate();
+
+            if (resultado >= 1) {
+
+                mensaje = new ClsMensaje(ClsMensaje.OK, "Has actualizado el cadidato exitosamente");
                 return mensaje;
             }
 

@@ -13,6 +13,7 @@ public class ClsCandidato extends ClsPersona {
     private String partido;
     private String mensajeCampania;
     private String descripcion;
+    
 
     public ClsCandidato(String partido, String mensajeCampania,
             String descripcion, String numeroCedula, String nombre,

@@ -20,6 +20,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
 
     JFrame menuPrincipal;
     CtlCandidato controladorCandidato;
+    LinkedList<ClsCandidato> listaCandidatos;
 
     /**
      * Creates new form VistaGestorCandidato
@@ -28,6 +29,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         initComponents();
         this.menuPrincipal = menuPrincipal;
         this.controladorCandidato = new CtlCandidato();
+
+        this.botonNuevo.setVisible(false);
+        this.botonActualizar.setVisible(false);
 
         this.ObtenerCandidatos();
     }
@@ -41,7 +45,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        panelPestanias = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -64,12 +68,13 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         campoDescripcion = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
         campoTelefono = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        botonActualizar = new javax.swing.JButton();
+        botonNuevo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaCandidatos = new javax.swing.JTable();
         botonEliminar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        botonEditar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
 
@@ -112,7 +117,19 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
 
         jLabel10.setText("Teléfono");
 
-        jButton1.setText("Actualizar");
+        botonActualizar.setText("Actualizar");
+        botonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarActionPerformed(evt);
+            }
+        });
+
+        botonNuevo.setText("Nuevo");
+        botonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonNuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,7 +177,9 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(botonNuevo)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonActualizar)
                         .addGap(17, 17, 17))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -203,11 +222,12 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAgregar)
-                    .addComponent(jButton1))
+                    .addComponent(botonActualizar)
+                    .addComponent(botonNuevo))
                 .addGap(32, 32, 32))
         );
 
-        jTabbedPane1.addTab("Formulario", jPanel1);
+        panelPestanias.addTab("Formulario", jPanel1);
 
         tablaCandidatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -229,7 +249,12 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Editar");
+        botonEditar.setText("Editar");
+        botonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -243,7 +268,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(botonEliminar)
                 .addGap(31, 31, 31)
-                .addComponent(jButton3)
+                .addComponent(botonEditar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -254,11 +279,11 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonEliminar)
-                    .addComponent(jButton3))
+                    .addComponent(botonEditar))
                 .addGap(39, 39, 39))
         );
 
-        jTabbedPane1.addTab("Lista", jPanel2);
+        panelPestanias.addTab("Lista", jPanel2);
 
         jLabel1.setText("Gestor candidato");
 
@@ -280,7 +305,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 402, Short.MAX_VALUE)
                         .addComponent(botonVolver))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelPestanias, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -291,7 +316,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(botonVolver))
                 .addGap(21, 21, 21)
-                .addComponent(jTabbedPane1)
+                .addComponent(panelPestanias)
                 .addContainerGap())
         );
 
@@ -342,15 +367,104 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
         if (mensaje.getTipo().equals(ClsMensaje.OK)) {
             ObtenerCandidatos();
         }
-        
+
         mensaje.mostrarMensaje();
 
 
     }//GEN-LAST:event_botonEliminarActionPerformed
 
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+
+        this.panelPestanias.setSelectedIndex(0);
+
+        int columna = 0;
+        int fila = this.tablaCandidatos.getSelectedRow();
+        String id = this.tablaCandidatos.getValueAt(fila, columna).toString();
+
+        ClsCandidato candidato = this.buscarCandidato(id);
+
+        if (candidato != null) {
+
+            this.campoCedula.setEnabled(false);
+            this.botonAgregar.setVisible(false);
+
+            this.botonActualizar.setVisible(true);
+            this.botonNuevo.setVisible(true);
+
+            this.campoCedula.setText(candidato.getNumeroCedula());
+            this.campoNombre.setText(candidato.getNombre());
+            this.campoCorreo.setText(candidato.getCorreo());
+            this.campoTelefono.setText(candidato.getTelefono());
+            this.comboCiudadorigen.setSelectedItem(candidato.getCiudadOrigen());
+            this.campoDireccion.setText(candidato.getDireccion());
+            this.comboPartido.setSelectedItem(candidato.getPartido());
+            this.campoMensajeCampania.setText(candidato.getMensajeCampania());
+            this.campoDescripcion.setText(candidato.getDescripcion());
+
+        }
+
+    }//GEN-LAST:event_botonEditarActionPerformed
+
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+
+        this.botonAgregar.setVisible(true);
+        this.botonActualizar.setVisible(false);
+        this.botonNuevo.setVisible(false);
+
+        this.campoCedula.setEnabled(true);
+        this.campoCedula.setText("");
+        this.campoNombre.setText("");
+        this.campoCorreo.setText("");
+        this.campoTelefono.setText("");
+        this.campoDireccion.setText("");
+        this.campoMensajeCampania.setText("");
+        this.campoDescripcion.setText("");
+
+
+    }//GEN-LAST:event_botonNuevoActionPerformed
+
+    private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
+      
+        
+        String numeroCedula = this.campoCedula.getText();
+        String nombre = this.campoNombre.getText();
+        String correo = this.campoCorreo.getText();
+        String telefono = this.campoTelefono.getText();
+        String ciudadOrigen = this.comboCiudadorigen.getSelectedItem().toString();
+        String direccion = this.campoDireccion.getText();
+        String partidoPolitico = this.comboPartido.getSelectedItem().toString();
+        String mensajeCampania = this.campoMensajeCampania.getText();
+        String descripcion = this.campoDescripcion.getText();
+
+        ClsCandidato candidato = new ClsCandidato(partidoPolitico, mensajeCampania, descripcion,
+                numeroCedula, nombre, correo, telefono, ciudadOrigen, direccion
+        );
+
+        ClsMensaje mensaje = this.controladorCandidato.actualizarCandidato(candidato);
+
+        if (mensaje.getTipo().equals(ClsMensaje.OK)) {
+            ObtenerCandidatos();
+        }
+
+        JOptionPane.showMessageDialog(rootPane, mensaje.getTexto());
+        
+    }//GEN-LAST:event_botonActualizarActionPerformed
+
+    public ClsCandidato buscarCandidato(String idCandidato) {
+
+        for (ClsCandidato c : this.listaCandidatos) {
+            if (idCandidato.equals(c.getNumeroCedula())) {
+                return c;
+            }
+        }
+
+        return null;
+
+    }
+
     public void ObtenerCandidatos() {
 
-        LinkedList<ClsCandidato> listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
+        this.listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
         this.actualizarTabla(listaCandidatos);
     }
 
@@ -406,8 +520,11 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonActualizar;
     private javax.swing.JButton botonAgregar;
+    private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonEliminar;
+    private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonVolver;
     private javax.swing.JTextField campoCedula;
     private javax.swing.JTextField campoCorreo;
@@ -418,8 +535,6 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private javax.swing.JTextField campoTelefono;
     private javax.swing.JComboBox<String> comboCiudadorigen;
     private javax.swing.JComboBox<String> comboPartido;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -435,7 +550,7 @@ public class VistaGestorCandidato extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane panelPestanias;
     private javax.swing.JTable tablaCandidatos;
     // End of variables declaration//GEN-END:variables
 }

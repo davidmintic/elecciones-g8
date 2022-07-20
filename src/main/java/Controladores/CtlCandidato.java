@@ -14,39 +14,39 @@ import java.util.LinkedList;
  * @author davidperezarias
  */
 public class CtlCandidato {
-    
+
     MdlCandidato modeloCandidato;
 
     public CtlCandidato() {
         this.modeloCandidato = new MdlCandidato();
     }
-    
-    public LinkedList<ClsCandidato> ObtenerCandidatos(){
-    
+
+    public LinkedList<ClsCandidato> ObtenerCandidatos() {
+
         LinkedList<ClsCandidato> listaCandidatos = this.modeloCandidato.ObtenerCandidatos();
         return listaCandidatos;
     }
-    
-    
-    
-    public ClsMensaje agregarCandidato(ClsCandidato candidato){
-        
-        
+
+    public ClsMensaje agregarCandidato(ClsCandidato candidato) {
+
         ClsMensaje mensaje = this.modeloCandidato.agregarCandidato(candidato);
-        
+
         return mensaje;
     }
-    
-     public ClsMensaje eliminarCandidato(String id){
-        
-        
+
+    public ClsMensaje eliminarCandidato(String id) {
+
         ClsMensaje mensaje = this.modeloCandidato.eliminarCandidato(id);
-        
+
         return mensaje;
     }
+
     
-    
-    
-    
-    
+    public ClsMensaje actualizarCandidato(ClsCandidato candidato) {
+
+        ClsMensaje mensaje = this.modeloCandidato.actualizarCandidato(candidato);
+
+        return mensaje;
+    }
+
 }
