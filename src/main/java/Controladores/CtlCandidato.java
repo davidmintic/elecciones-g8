@@ -48,5 +48,7 @@ public class CtlCandidato {
 
         return mensaje;
     }
+    
+   
 
 }

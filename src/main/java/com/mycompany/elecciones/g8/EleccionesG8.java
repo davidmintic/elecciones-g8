@@ -6,6 +6,7 @@
 package com.mycompany.elecciones.g8;
 
 import Clases.ClsJdbc;
+import Vistas.VistaMenu;
 
 
 /**
@@ -15,11 +16,11 @@ import Clases.ClsJdbc;
 public class EleccionesG8 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        
-        ClsJdbc jdbc = new ClsJdbc();
-        jdbc.CrearConexion();
        
         
+        VistaMenu menu = new VistaMenu();
+        menu.setLocationRelativeTo(null);
+        menu.setVisible(true);
+
     }
 }

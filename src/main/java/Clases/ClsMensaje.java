@@ -22,6 +22,7 @@ public class ClsMensaje {
     public ClsMensaje(String tipo, String texto) {
         this.tipo = tipo;
         this.texto = texto;
+        
     }
 
     public String getTipo() {

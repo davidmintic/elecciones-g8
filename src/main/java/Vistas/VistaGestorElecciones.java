@@ -4,10 +4,15 @@
  */
 package Vistas;
 
+import Clases.ClsCandidato;
 import Clases.ClsEleccion;
 import Clases.ClsMensaje;
+import Controladores.CtlCandidato;
 import Controladores.CtlEleccion;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,14 +21,36 @@ import java.text.SimpleDateFormat;
 public class VistaGestorElecciones extends javax.swing.JFrame {
 
     CtlEleccion controlador;
-    
+    CtlCandidato controladorCandidato;
+
+    LinkedList<ClsEleccion> listaElecciones;
+    LinkedList<ClsCandidato> listaCandidatos;
+
     /**
      * Creates new form VistaGestorElecciones
      */
     public VistaGestorElecciones() {
         initComponents();
-        
+
+        this.tablaElecciones.getColumnModel().getColumn(0).setPreferredWidth(120);
+        this.tablaElecciones.getColumnModel().getColumn(0).setMinWidth(120);
+        this.tablaElecciones.getColumnModel().getColumn(1).setPreferredWidth(180);
+        this.tablaElecciones.getColumnModel().getColumn(1).setMinWidth(180);
+        this.tablaElecciones.getColumnModel().getColumn(2).setPreferredWidth(100);
+        this.tablaElecciones.getColumnModel().getColumn(2).setMinWidth(100);
+        this.tablaElecciones.getColumnModel().getColumn(3).setPreferredWidth(180);
+        this.tablaElecciones.getColumnModel().getColumn(3).setMinWidth(100);
+        this.tablaElecciones.getColumnModel().getColumn(4).setPreferredWidth(100);
+        this.tablaElecciones.getColumnModel().getColumn(4).setMinWidth(100);
+        this.tablaElecciones.getColumnModel().getColumn(5).setPreferredWidth(100);
+        this.tablaElecciones.getColumnModel().getColumn(5).setMinWidth(100);
+
         this.controlador = new CtlEleccion();
+        this.controladorCandidato = new CtlCandidato();
+        this.listaElecciones = new LinkedList<>();
+        this.listaCandidatos = new LinkedList<>();
+        this.obtenerElecciones();
+        this.obtenerCandidatos();
     }
 
     /**
@@ -47,8 +74,6 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
         botonVolver = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         comboCategoria = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaElecciones = new javax.swing.JTable();
         botonEliminar = new javax.swing.JButton();
         botonEditar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -56,9 +81,12 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
         comboCandidato = new javax.swing.JComboBox<>();
         botonAsociarCandidato = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaCandidatosEleccion = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         botonEliminarAsociacion = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaElecciones = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,7 +149,7 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(campoFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,21 +181,6 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-
-        tablaElecciones.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Elección", "Fecha inicio", "Fecha fin", "Estado", "Ganador"
-            }
-        ));
-        jScrollPane1.setViewportView(tablaElecciones);
-
         botonEliminar.setText("Eliminar");
 
         botonEditar.setText("Editar");
@@ -179,6 +192,11 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
         comboCandidato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         botonAsociarCandidato.setText("Asociar candidato");
+        botonAsociarCandidato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAsociarCandidatoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -190,7 +208,7 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(comboCandidato, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAsociarCandidato))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +222,7 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaCandidatosEleccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -215,11 +233,33 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
                 "Id", "Nombre"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tablaCandidatosEleccion);
 
         jLabel6.setText("Candidatos");
 
         botonEliminarAsociacion.setText("Eliminar");
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+
+        tablaElecciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id", "Elección", "Fecha inicio", "Fecha fin", "Estado", "Ganador"
+            }
+        ));
+        tablaElecciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEleccionesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaElecciones);
+
+        jScrollPane3.setViewportView(jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,24 +268,23 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(401, 401, 401)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(botonEliminar)
                                     .addComponent(botonEditar)
-                                    .addComponent(botonEliminarAsociacion))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(botonEliminarAsociacion)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(19, 19, 19))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,15 +292,15 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonEliminar)
                         .addGap(18, 18, 18)
                         .addComponent(botonEditar)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,6 +311,57 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void obtenerCandidatos() {
+
+        this.listaCandidatos = this.controladorCandidato.ObtenerCandidatos();
+        this.actualizarCombo(listaCandidatos);
+
+    }
+
+    private void actualizarCombo(LinkedList<ClsCandidato> lista) {
+
+        DefaultComboBoxModel model = (DefaultComboBoxModel) this.comboCandidato.getModel();
+        model.removeAllElements();
+
+        for (ClsCandidato candidato : lista) {
+            model.addElement(candidato.getNombre() + "-" + candidato.getNumeroCedula());
+        }
+
+        // setting model with new data
+        this.comboCandidato.setModel(model);
+
+    }
+
+    private void obtenerElecciones() {
+
+        this.listaElecciones = this.controlador.obtenerElecciones();
+        this.actualizarTabla(listaElecciones);
+
+    }
+
+    private void actualizarTabla(LinkedList<ClsEleccion> lista) {
+
+        DefaultTableModel modelo = (DefaultTableModel) this.tablaElecciones.getModel();
+        modelo.setRowCount(0);
+
+        for (ClsEleccion c : lista) {
+
+            Object[] fila = {
+                c.getIdEleccion(),
+                c.getDescripcion(),
+                c.getFechaInicio(),
+                c.getFechaFin(),
+                c.getEstado(),
+                ""
+            };
+
+            modelo.addRow(fila);
+
+        }
+
+    }
+
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
 
@@ -286,15 +376,66 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
         String[] arrayFecha = fechaInicio.split("-", 2);
 
         String idEleccion = arrayFecha[0] + "-" + categoria;
-        
-        //boolean isSelected = this.check.isSelected();
 
+        //boolean isSelected = this.check.isSelected();
         ClsEleccion eleccionNueva = new ClsEleccion(idEleccion, nombre,
                 fechaInicio, fechaFin, categoria);
 
         ClsMensaje mensaje = this.controlador.agregarEleccion(eleccionNueva);
 
     }//GEN-LAST:event_botonAgregarActionPerformed
+
+    private void botonAsociarCandidatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAsociarCandidatoActionPerformed
+
+        int columna = 0;
+        int fila = this.tablaElecciones.getSelectedRow();
+        String idEleccion = this.tablaElecciones.getValueAt(fila, columna).toString();
+
+        String[] partesCombo = this.comboCandidato.getSelectedItem().toString().split("-");
+
+        String idCandidato = partesCombo[1];
+
+        ClsMensaje mensaje = this.controlador.asociarCandidato(idCandidato, idEleccion);
+
+        if (mensaje.getTipo().equals(ClsMensaje.OK)) {
+
+            this.obtenerCandidatosPorEleccion(idEleccion);
+        }
+
+    }//GEN-LAST:event_botonAsociarCandidatoActionPerformed
+
+    private void tablaEleccionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEleccionesMouseClicked
+
+        int columna = 0;
+        int fila = this.tablaElecciones.getSelectedRow();
+        String idEleccion = this.tablaElecciones.getValueAt(fila, columna).toString();
+        this.obtenerCandidatosPorEleccion(idEleccion);
+
+    }//GEN-LAST:event_tablaEleccionesMouseClicked
+
+    private void obtenerCandidatosPorEleccion(String idEleccion) {
+
+        LinkedList<ClsCandidato> candidatos = this.controlador.obtenerCandidatosEleccion(idEleccion);
+        this.actualizarTablaCandidatos(candidatos);
+
+    }
+
+    private void actualizarTablaCandidatos(LinkedList<ClsCandidato> lista) {
+        DefaultTableModel modelo = (DefaultTableModel) this.tablaCandidatosEleccion.getModel();
+        modelo.setRowCount(0);
+
+        for (ClsCandidato c : lista) {
+
+            Object[] fila = {
+                c.getNumeroCedula(),
+                c.getNombre()
+            };
+
+            modelo.addRow(fila);
+
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -354,7 +495,8 @@ public class VistaGestorElecciones extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable tablaCandidatosEleccion;
     private javax.swing.JTable tablaElecciones;
     // End of variables declaration//GEN-END:variables
 }
